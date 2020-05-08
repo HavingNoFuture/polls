@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from rest_framework import permissions, viewsets
-from .models import Poll, Session, Question, PollUser
+from .models import Poll, Question, PollUser
 from .serializers import PollSerializer, QuestionSerializer, PollUserSerializer
 
 
