@@ -31,7 +31,7 @@ class SessionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
 
     class Meta:
-        model = Poll
+        model = Session
         fields = ('user', 'poll', 'answers')
 
 

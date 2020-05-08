@@ -15,7 +15,7 @@ QUESTION_TYPE_CHOICES = (
 class Question(models.Model):
     text = models.TextField("Текст вопроса")
     type = models.CharField("Тип", max_length=100, choices=QUESTION_TYPE_CHOICES, default='text')
-    ready_answers = models.TextField("Готовые варианты ответа", default='')
+    ready_answers = models.TextField("Готовые варианты ответа", default='', blank=True)
 
 
 class Poll(models.Model):
@@ -34,4 +34,4 @@ class Answer(models.Model):
 class Session(models.Model):
     user = models.ForeignKey(PollUser, verbose_name="Пользователь", on_delete=models.CASCADE, related_name="sessions")
     poll = models.ForeignKey(Poll, verbose_name="Опрос", on_delete=models.CASCADE)
-    answers = models.ManyToManyField(Answer)
+    answers = models.ManyToManyField(Answer, related_name="sessions")
