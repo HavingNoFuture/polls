@@ -52,5 +52,46 @@
       "description": "desc 2",
       "questions": [1, 2]
     }
+  },
+  {
+    "model": "api.answer",
+    "pk": 1,
+    "fields": {
+      "question": 1,
+      "text": "text 1"
+    }
+  },
+  {
+    "model": "api.answer",
+    "pk": 2,
+    "fields": {
+      "question": 2,
+      "text": "text 2"
+    }
+  },
+  {
+    "model": "api.answer",
+    "pk": 3,
+    "fields": {
+      "question": 3,
+      "text": "text 3"
+    }
+  },
+  {
+    "model": "api.answer",
+    "pk": 4,
+    "fields": {
+      "question": 4,
+      "text": "text 4"
+    }
+  },
+  {
+    "model": "api.session",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "poll": 1,
+      "answers": [1, 2, 3, 4]
+    }
   }
 ]

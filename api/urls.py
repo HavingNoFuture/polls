@@ -8,9 +8,11 @@ from . import views
 router = DefaultRouter()
 router.register('polls', views.PollViewSet)
 router.register('questions', views.QuestionViewSet)
+# router.register('users', views.UserViewSet)
+
 
 urlpatterns = [
-
+    path('users/<int:pk>/', views.UserViewSet.as_view({'get': 'retrieve'}))
 ]
 
 urlpatterns += router.urls

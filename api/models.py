@@ -26,13 +26,12 @@ class Poll(models.Model):
     questions = models.ManyToManyField(Question, verbose_name="Вопросы", related_name="polls")
 
 
-class Session(models.Model):
-    user = models.ForeignKey(PollUser, verbose_name="Пользователь", on_delete=models.CASCADE)
-    poll = models.ForeignKey(Poll, verbose_name="Опрос", on_delete=models.CASCADE)
-    answers = models.ManyToManyField('Answer')
-
-
 class Answer(models.Model):
-    question = models.ForeignKey(Session, verbose_name="Вопрос", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE)
     text = models.TextField("Ответ на вопрос")
 
+
+class Session(models.Model):
+    user = models.ForeignKey(PollUser, verbose_name="Пользователь", on_delete=models.CASCADE, related_name="sessions")
+    poll = models.ForeignKey(Poll, verbose_name="Опрос", on_delete=models.CASCADE)
+    answers = models.ManyToManyField(Answer)
