@@ -1,0 +1,56 @@
+[
+  {
+    "model": "api.question",
+    "pk": 1,
+    "fields": {
+      "text": "question 1?",
+      "type": "text"
+    }
+  },
+  {
+    "model": "api.question",
+    "pk": 2,
+    "fields": {
+      "text": "question 2?",
+      "type": "text"
+    }
+  },
+  {
+    "model": "api.question",
+    "pk": 3,
+    "fields": {
+      "text": "question 3?",
+      "type": "text"
+    }
+  },
+  {
+    "model": "api.question",
+    "pk": 4,
+    "fields": {
+      "text": "question 4?",
+      "type": "text"
+    }
+  },
+  {
+    "model": "api.poll",
+    "pk": 1,
+    "fields": {
+      "name": "name 1",
+      "start_date": "2020-05-08 17:41:28",
+      "end_date": "2020-12-12 17:41:28",
+      "description": "desc 1",
+      "questions": [1, 2, 3, 4]
+    }
+  },
+  {
+    "model": "api.poll",
+    "pk": 2,
+    "fields": {
+      "name": "name 2",
+      "start_date": "2020-05-08 17:41:28",
+      "end_date": "2020-12-12 17:41:28",
+      "description": "desc 2",
+      "questions": [1, 2]
+    }
+  }
+]
