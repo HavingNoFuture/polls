@@ -17,22 +17,28 @@ class PollSerializer(serializers.ModelSerializer):
         fields = ('name', 'description', 'questions')
 
 
-class AnswerSerializer(serializers.ModelSerializer):
-    question = serializers.SlugRelatedField(slug_field='text', read_only=True,)
+class ReadAnswerSerializer(serializers.ModelSerializer):
+    question = serializers.SlugRelatedField(slug_field='text', read_only=True)
 
     class Meta:
         model = Answer
         fields = ('question', 'text')
 
 
+class CreateAnswerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Answer
+        fields = ('text',)
+
+
 class SessionSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
     poll = serializers.SlugRelatedField(slug_field='name', read_only=True,)
-    answers = AnswerSerializer(many=True)
+    answers = ReadAnswerSerializer(many=True)
 
     class Meta:
         model = Session
-        fields = ('user', 'poll', 'answers')
+        fields = ('poll', 'answers')
 
 
 class PollUserSerializer(serializers.ModelSerializer):

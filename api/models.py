@@ -1,8 +1,9 @@
 from django.db import models
+import uuid
 
 
 class PollUser(models.Model):
-    cookie = models.CharField("Ключ куки", max_length=150)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 
 QUESTION_TYPE_CHOICES = (

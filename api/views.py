@@ -1,8 +1,11 @@
 from datetime import datetime
 
-from rest_framework import permissions, viewsets
-from .models import Poll, Question, PollUser, Session
-from .serializers import PollSerializer, QuestionSerializer, PollUserSerializer, SessionSerializer
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework import permissions, viewsets, generics
+from .models import Poll, Question, PollUser, Session, Answer
+from .serializers import PollSerializer, QuestionSerializer, PollUserSerializer, SessionSerializer, \
+    CreateAnswerSerializer
 
 
 class PollViewSet(viewsets.ModelViewSet):
@@ -34,3 +37,28 @@ class SessionsViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = Session.objects.filter(poll__id=self.kwargs.get('poll_id'))
         return queryset
+
+
+class AnswerViewSet(generics.CreateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = CreateAnswerSerializer
+
+    def create(self, request, *args, **kwargs):
+        questions = Poll.objects.get(id=self.kwargs.get('poll_id')).questions.all()
+        question_ids = questions.values_list('id', flat=True).order_by("id")
+        if self.kwargs.get('question_id') not in question_ids:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return super().create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        cookie = self.request.session.get("POLL_USER_COOKIE", None)
+        if not cookie:
+            new_user = PollUser.objects.create()
+            cookie = str(new_user.id)
+            self.request.session["POLL_USER_COOKIE"] = cookie
+
+        user = PollUser.objects.get(id=cookie)
+        session, _ = Session.objects.get_or_create(user_id=user.id, poll_id=self.kwargs.get('poll_id'))
+        answer = serializer.save(question_id=self.kwargs.get('question_id'))
+        session.answers.add(answer)
+        session.save()

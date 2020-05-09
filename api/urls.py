@@ -11,6 +11,7 @@ router.register('questions', views.QuestionViewSet)
 
 
 urlpatterns = [
+    path('polls/<int:poll_id>/questions/<int:question_id>/answer/', views.AnswerViewSet.as_view()),
     path('users/<int:pk>/', views.UserViewSet.as_view({'get': 'retrieve'})),
     path('doc/', include('api.yasg')),
 ]
