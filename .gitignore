@@ -19,3 +19,4 @@ settings_local.py
 ### celery ###
 celerybeat-schedule
 celerybeat.pid
+*/tests/*
