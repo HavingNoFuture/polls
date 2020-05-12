@@ -4,13 +4,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import permissions, viewsets, generics
 from .models import Poll, Question, PollUser, Session, Answer
-from .serializers import PollSerializer, QuestionSerializer, PollUserSerializer, SessionSerializer, \
-    CreateAnswerSerializer
+from . import serializers
 
 
 class PollViewSet(viewsets.ModelViewSet):
     queryset = Poll.objects.filter(end_date__gt=datetime.today()).order_by('end_date')
-    serializer_class = PollSerializer
+    serializer_class = serializers.PollSerializer
     permission_classes = (permissions.IsAdminUser,)
 
     def get_permissions(self):
@@ -21,18 +20,18 @@ class PollViewSet(viewsets.ModelViewSet):
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+    serializer_class = serializers.QuestionSerializer
     permission_classes = (permissions.IsAdminUser,)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = PollUser.objects.all()
-    serializer_class = PollUserSerializer
+    serializer_class = serializers.PollUserSerializer
 
 
 class SessionsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+    serializer_class = serializers.SessionSerializer
 
     def get_queryset(self):
         queryset = Session.objects.filter(poll__id=self.kwargs.get('poll_id'))
@@ -41,7 +40,7 @@ class SessionsViewSet(viewsets.ReadOnlyModelViewSet):
 
 class AnswerViewSet(generics.CreateAPIView):
     queryset = Answer.objects.all()
-    serializer_class = CreateAnswerSerializer
+    serializer_class = serializers.CreateAnswerSerializer
 
     def create(self, request, *args, **kwargs):
         questions = Poll.objects.get(id=self.kwargs.get('poll_id')).questions.all()
